@@ -28,5 +28,5 @@ pip install -r requirements.txt
 To run the project:
 
 ```bash
-uvicorn src.server:app --reload
+uvicorn main:app --reload
 ```
