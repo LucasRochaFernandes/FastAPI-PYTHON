@@ -1,5 +1,5 @@
-from database import engine, SessionLocal
-import models
+from src.database import engine, SessionLocal
+import src.models as models
 from fastapi import Depends, FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
