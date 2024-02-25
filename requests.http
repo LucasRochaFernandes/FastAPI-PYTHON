@@ -1,2 +1,16 @@
 @baseURL = http://localhost:8000
-GET {{baseURL}}/questions
+GET {{baseURL}}/questions/2
+
+###
+
+POST {{baseURL}}/questions
+Content-Type: application/json
+
+{
+  "questionText": "O que React?",
+  "choices": [
+    {"choiceText": "Framework", "isCorrect": true},
+    {"choiceText": "Ambiente", "isCorrect": false},
+    {"choiceText": "Banco de dados", "isCorrect": false}
+  ]
+}

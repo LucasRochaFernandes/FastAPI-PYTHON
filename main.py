@@ -46,6 +46,7 @@ async def createQuestions(data: QuestionBase, db: Session = Depends(getDb)):
       choice = models.Choices(choice_text=choiceInData.choiceText, is_correct=choiceInData.isCorrect, question_id=question.id)
       db.add(choice)
     db.commit()
+    db.refresh(question)
     return question
       
   
