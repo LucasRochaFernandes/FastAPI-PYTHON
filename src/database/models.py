@@ -1,5 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
-from src.database import Base
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
 
 class Questions(Base):
   __tablename__ = "questions"
@@ -13,4 +15,11 @@ class Choices(Base):
   is_correct = Column(Boolean,default=False)
   question_id = Column(Integer, ForeignKey("questions.id")) 
 
+class Users(Base):
+  __tablename__ = "users"
+  id = Column(Integer, primary_key=True, index=True)
+  name =  Column(String)
+  email = Column(String, unique=True)
+  password = Column(String)
+  
 

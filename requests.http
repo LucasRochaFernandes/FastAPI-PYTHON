@@ -14,3 +14,22 @@ Content-Type: application/json
     {"choiceText": "Banco de dados", "isCorrect": false}
   ]
 }
+
+###
+POST {{baseURL}}/users
+Content-Type: application/json
+
+{
+  "name": "lucas",
+  "email": "lucas2@gmail.com",
+  "password": "password123"
+}
+
+###
+POST {{baseURL}}/sessions
+Content-Type: application/json
+
+{
+  "email": "lucas2@gmail.com",
+  "password": "password123"
+}
