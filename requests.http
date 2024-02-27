@@ -1,5 +1,6 @@
 @baseURL = http://localhost:8000
-GET {{baseURL}}/questions/2
+@accessToken = {{authenticate.response.body.access_token}}
+GET {{baseURL}}/questions/4
 
 ###
 
@@ -26,6 +27,8 @@ Content-Type: application/json
 }
 
 ###
+
+# @name authenticate
 POST {{baseURL}}/sessions
 Content-Type: application/json
 
@@ -33,3 +36,8 @@ Content-Type: application/json
   "email": "lucas2@gmail.com",
   "password": "password123"
 }
+
+###
+
+GET {{baseURL}}/profile
+Authorization: Bearer {{accessToken}}

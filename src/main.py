@@ -3,14 +3,15 @@ from src.baseModels import AuthenticateRequest, QuestionRequest, UsersRequest
 import src.database.models as models
 from fastapi import FastAPI, HTTPException
 from starlette import status
-from src.database.index import dbDependency
+from src.dependencies import dbDependency
 from src.auth import bcryptContext
 from src.database.index import migrate
 from jose import jwt
+
+from src.dependencies import authDependency
 from src.env import algorithmJWT, secretKeyJWT
 
 app = FastAPI(docs_url="/docs", redoc_url="/redoc")
-# app.include_router(routes.router)
 migrate()
 
 @app.get("/questions/{questionId}")
@@ -60,8 +61,13 @@ async def authenticate(data: AuthenticateRequest, db: dbDependency):
    isMatch = bcryptContext.verify(data.password, user.password)
    if not isMatch:
      raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Invalid Credentials')
-   encode = {'sub': user.id}
+   encode = {'sub': str(user.id)}
    expires = datetime.utcnow() + timedelta(days=3)
    encode.update({'exp': expires})
    access_token = jwt.encode(encode, secretKeyJWT, algorithm=algorithmJWT )
    return {'access_token': access_token, 'token_type': 'bearer'}
+
+@app.get('/profile', status_code=status.HTTP_200_OK)
+async def profile(auth: authDependency, db: dbDependency):
+  user = db.query(models.Users).filter(models.Users.id == auth['userId']).first()
+  return user
