@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from src.baseModels import AuthenticateRequest, QuestionRequest, UsersRequest
+from fastapi.responses import JSONResponse
 import src.database.models as models
 from fastapi import FastAPI, HTTPException
 from starlette import status
@@ -65,7 +66,10 @@ async def authenticate(data: AuthenticateRequest, db: dbDependency):
    expires = datetime.utcnow() + timedelta(days=3)
    encode.update({'exp': expires})
    access_token = jwt.encode(encode, secretKeyJWT, algorithm=algorithmJWT )
-   return {'access_token': access_token, 'token_type': 'bearer'}
+   content = {'access_token': access_token, 'token_type': 'bearer'}
+   response = JSONResponse(content=content)
+   response.set_cookie(key="access_token", value=access_token, path='/', httponly=True)
+   return response
 
 @app.get('/profile', status_code=status.HTTP_200_OK)
 async def profile(auth: authDependency, db: dbDependency):
