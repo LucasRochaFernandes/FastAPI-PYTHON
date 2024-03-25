@@ -4,7 +4,7 @@ from fastapi import Depends, HTTPException, Request
 from jose import JWTError, jwt
 from src.env import secretKeyJWT, algorithmJWT
 from starlette import status
-
+# 
 async def verifyJWT(token: Annotated[str, Depends(oauth2Bearer)], request: Request):
     try:
       payload = jwt.decode(token, secretKeyJWT, algorithms=[algorithmJWT])
